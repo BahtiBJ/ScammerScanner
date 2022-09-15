@@ -9,7 +9,7 @@
 
 На главной странице находятся журнал вызовов и СМС. На странице журнала вызовов можно добавить номер в одну из категорий.
 
-![](/illustrations/calllogs.gif)      ![](/illustrations/blockedCalls.png)
+![](/illustrations/calllogs.gif)      ![](/illustrations/blockedCalls.png =100x20)
 
 На странице с СМС можно открыть диалоговое окно с полным текстом сообщения.
 
@@ -17,7 +17,7 @@
 
 В настройках можно включить фильтрацию вызовов и уведомления. Также можно посмотреть полный список в каждой категории и удалить какой-либо номер свайпом.
 
-![](/illustrations/settings.gif)      ![](/illustrations/delete.gif)     ![](/illustrations/notification.png)   
+![](/illustrations/settings.gif)      ![](/illustrations/delete.gif)     ![](/illustrations/notification.png =100x20)   
 
 № Структура
 
