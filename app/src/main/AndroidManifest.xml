@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScammerScanner">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.PreferencesActivity"
+        <activity android:name=".view.activities.PreferencesActivity"
             android:exported="false"/>
         <service android:name=".view.FilterCallScreeningService"
             android:permission="android.permission.BIND_SCREENING_SERVICE"

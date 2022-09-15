@@ -1,15 +1,13 @@
-package com.bbj.scammerscanner.view
+package com.bbj.scammerscanner.view.activities
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.bbj.scammerscanner.R
-import com.bbj.scammerscanner.data.PreferenceManager
 import com.bbj.scammerscanner.view.fragments.NumberListFragment
 import com.bbj.scammerscanner.view.fragments.SettingFragment
+import com.bbj.scammerscanner.view.viewmodels.PreferenceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

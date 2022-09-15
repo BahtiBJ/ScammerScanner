@@ -1,4 +1,4 @@
-package com.bbj.scammerscanner.view
+package com.bbj.scammerscanner.view.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

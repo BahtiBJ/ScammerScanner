@@ -9,7 +9,7 @@ import com.bbj.scammerscanner.R
 import com.bbj.scammerscanner.data.room.MaybeScammerNumbers
 import com.bbj.scammerscanner.data.room.ScammerNumbers
 import com.bbj.scammerscanner.data.room.SuspiciousNumbers
-import com.bbj.scammerscanner.view.MainViewModel
+import com.bbj.scammerscanner.view.viewmodels.MainViewModel
 import com.bbj.scammerscanner.view.adapters.CallLogsAdapter
 import java.time.LocalDate
 

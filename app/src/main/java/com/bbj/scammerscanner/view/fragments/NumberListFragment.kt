@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bbj.scammerscanner.R
 import com.bbj.scammerscanner.data.models.NumberType
-import com.bbj.scammerscanner.view.PreferenceViewModel
+import com.bbj.scammerscanner.view.viewmodels.PreferenceViewModel
 import com.bbj.scammerscanner.view.adapters.NumberListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

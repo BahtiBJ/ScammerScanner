@@ -1,4 +1,4 @@
-package com.bbj.scammerscanner.view
+package com.bbj.scammerscanner.view.activities
 
 import android.Manifest
 import android.app.role.RoleManager
@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.bbj.scammerscanner.R
+import com.bbj.scammerscanner.view.MainView
 import com.bbj.scammerscanner.view.adapters.PagerStateAdapter
 import com.bbj.scammerscanner.view.fragments.SMSDetailDialog
+import com.bbj.scammerscanner.view.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,13 +22,11 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(),MainView {
+class MainActivity : AppCompatActivity(), MainView {
 
     private val viewModel: MainViewModel by viewModels()
 
     private val toolbarTitle : TextView by lazy { findViewById(R.id.toolbar_title) }
-
-    val requestCode = 1
 
     private val pager : ViewPager2 by lazy {findViewById(R.id.main_viewpager)}
 
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(),MainView {
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val pager = findViewById<ViewPager2>(R.id.main_viewpager)
         pager.adapter = PagerStateAdapter(this)
         pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -101,17 +100,12 @@ class MainActivity : AppCompatActivity(),MainView {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-    }
-
     override fun setActionBarTitle(text : String){
         toolbarTitle.text = text
     }
 
     override fun navigateToSettings(){
-        startActivity(Intent(this,PreferencesActivity::class.java))
+        startActivity(Intent(this, PreferencesActivity::class.java))
         overridePendingTransition(R.anim.slide_up_enter,R.anim.zoom_out_exitr)
     }
 

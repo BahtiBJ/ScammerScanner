@@ -10,6 +10,4 @@ interface MainView {
 
     fun navigateToSmsDetail(bundle: Bundle)
 
-
-
 }

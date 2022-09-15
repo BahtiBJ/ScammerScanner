@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.bbj.scammerscanner.R
 import com.bbj.scammerscanner.data.PreferenceManager
 import com.bbj.scammerscanner.data.models.NumberType
-import com.bbj.scammerscanner.view.PreferencesActivity
+import com.bbj.scammerscanner.view.activities.PreferencesActivity
 
 
 class SettingFragment : Fragment() {

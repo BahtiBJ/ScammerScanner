@@ -44,11 +44,7 @@ class CallLogsAdapter(context: Context, private val callsList: ArrayList<CallInf
         holder.itemView.setOnClickListener {
             onDotsClick.click(it,callsList[position].number)
         }
-
-
     }
-
-
 
     override fun getItemCount(): Int {
         return callsList.size
