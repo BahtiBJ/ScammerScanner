@@ -36,7 +36,6 @@ class SmsListFragment : Fragment(){
         viewModel.liveSmsModels.observe(viewLifecycleOwner){
             smsList.adapter = SMSListAdapter(requireContext(),it, object : SMSListAdapter.onSmsClick {
                 override fun click(sms: SMSModel) {
-                    Toast.makeText(requireContext(),"CLick",Toast.LENGTH_LONG).show()
                     (requireActivity() as MainView).navigateToSmsDetail(Bundle().apply {
                         putString(SMSDetailDialog.BODY_KEY,sms.body)
                         putString(SMSDetailDialog.ADDRESS_KEY,sms.address)

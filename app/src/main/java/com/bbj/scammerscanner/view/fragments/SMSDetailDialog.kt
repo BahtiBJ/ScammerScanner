@@ -32,7 +32,6 @@ class SMSDetailDialog : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        (requireActivity()as MainView).setActionBarTitle(address)
         val bodyTextView = view.findViewById<TextView>(R.id.sms_detail_item_body)
         bodyTextView.text = body
     }
