@@ -9,7 +9,7 @@
 
 На главной странице находятся журнал вызовов и СМС. На странице журнала вызовов можно добавить номер в одну из категорий.
 
-![](/illustrations/calllogs.gif)      ![](/illustrations/blockedCalls.png =100x20)
+![](/illustrations/calllogs.gif)      ![](/illustrations/blockedCalls.png)
 
 На странице с СМС можно открыть диалоговое окно с полным текстом сообщения.
 
@@ -17,8 +17,8 @@
 
 В настройках можно включить фильтрацию вызовов и уведомления. Также можно посмотреть полный список в каждой категории и удалить какой-либо номер свайпом.
 
-![](/illustrations/settings.gif)      ![](/illustrations/delete.gif)     ![](/illustrations/notification.png =100x20)   
+![](/illustrations/settings.gif)      ![](/illustrations/delete.gif)     ![](/illustrations/notification.png)   
 
-№ Структура
+# Структура
 
 В приложении используются следующие библиотеки: Hilt для DI, Kotlin Coroutiune для многопоточности, Call Screening Service для перехвата входящего вызова.
