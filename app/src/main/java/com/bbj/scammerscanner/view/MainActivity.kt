@@ -5,17 +5,21 @@ import android.app.NotificationManager
 import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.CallLog
 import android.provider.Telephony
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bbj.scammerscanner.R
 import com.bbj.scammerscanner.data.models.CallInfo
 import com.bbj.scammerscanner.data.models.SMSModel
+import kotlinx.coroutines.*
 import pub.devrel.easypermissions.EasyPermissions
 
 
@@ -36,20 +40,28 @@ class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
 
         ActivityCompat.requestPermissions(this, arrayOf(phoneStatePermission), requestCode)
 
-//        if (ContextCompat.checkSelfPermission(
-//                this,
-//                permission
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
-//        } else {
-//            val callArray = readCallLog()
-//            if (callArray.isNotEmpty()) {
-//                textView.setText(callArray.toString())
-//            } else {
-//                Toast.makeText(this, "Emptyyyyyyyyyy", Toast.LENGTH_LONG).show()
-//            }
-//        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                callPermission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(callPermission), requestCode)
+        } else {
+            GlobalScope.launch(Dispatchers.Default) {
+                val deferredLogs = async<ArrayList<CallInfo>>(){
+                    readCallLog()
+                }
+                val callArray =  deferredLogs.await()
+
+                withContext(Dispatchers.Main) {
+                    if (callArray.isNotEmpty()) {
+                        textView.setText(callArray.toString())
+                    } else {
+                        Toast.makeText(this@MainActivity, "Emptyyyyyyyyyy", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
 
 //        if (ContextCompat.checkSelfPermission(
 //                this,

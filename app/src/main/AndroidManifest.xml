@@ -24,16 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DIalogActivity"
-            android:exported="true"/>
-        <service android:name=".view.CustomCallScreeningService"
+        <service android:name=".view.FilterCallScreeningService"
             android:permission="android.permission.BIND_SCREENING_SERVICE"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.telecom.CallScreeningService"/>
             </intent-filter>
         </service>
-        <receiver android:name=".view.CustomReceiver"
+        <receiver android:name=".view.OnPhoneStateReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
