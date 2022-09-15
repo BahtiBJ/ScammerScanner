@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/to_scammer"
+        android:title="@string/to_scammer"/>
+    <item android:id="@+id/to_maybe_scammer"
+        android:title="@string/to_maybe_scammer"/>
+    <item android:id="@+id/to_suspicious"
+        android:title="@string/to_suspicious"/>
+</menu>

@@ -17,14 +17,12 @@ class OnPhoneStateReceiver : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("RECIEWVERAAAA","RECIEW IT EEEEEEEEEEEEEEEEEEEE")
         if (context != null)
             Toast.makeText(context, "$context.", Toast.LENGTH_LONG).show()
         notify(context!!,"FROM BROADCAST RECIEVRE")
     }
 
     fun notify(context: Context, text: String) {
-        Log.d("RECIEWVERAAAA","Notify")
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(NotificationChannel("0","def",NotificationManager.IMPORTANCE_HIGH))
         val builder = NotificationCompat.Builder(context, "0")

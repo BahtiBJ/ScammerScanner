@@ -4,32 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bbj.scammerscanner.data.models.CallInfo
 import com.bbj.scammerscanner.data.models.NumberType
-import com.bbj.scammerscanner.data.models.SMSModel
 import com.bbj.scammerscanner.data.room.MaybeScammerNumbers
 import com.bbj.scammerscanner.data.room.ScammerNumbers
 import com.bbj.scammerscanner.data.room.SuspiciousNumbers
 import com.bbj.scammerscanner.domain.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class PreferenceViewModel @Inject constructor(
     private val dataRepository: DataRepository
 ) : ViewModel() {
-
-    private val _liveCallLogs = MutableLiveData<ArrayList<CallInfo>>()
-    val liveCallLogs: LiveData<ArrayList<CallInfo>>
-        get() = _liveCallLogs
-
-    private val _liveSmsModels = MutableLiveData<ArrayList<SMSModel>>()
-    val liveSmsModels: LiveData<ArrayList<SMSModel>>
-        get() = _liveSmsModels
 
     private val _liveScammerNumbers = MutableLiveData<List<ScammerNumbers>>()
     val liveScammerNumbers: LiveData<List<ScammerNumbers>>
@@ -43,28 +32,22 @@ class MainViewModel @Inject constructor(
     val liveSuspiciousNumbers: LiveData<List<SuspiciousNumbers>>
         get() = _liveSuspiciousNumbers
 
-    fun claimCallLogs() {
+    fun deleteFromDB(number : String,numberType: NumberType){
         viewModelScope.launch(Dispatchers.Default) {
-            val callLogs = async {
-                dataRepository.getCallLogs()
-            }.await()
-            withContext(Dispatchers.Main) {
-                _liveCallLogs.value = callLogs
-            }
+            dataRepository.deleteNumber(number,numberType)
         }
     }
 
-    fun claimSms() {
+    fun claimScammerNumbers() {
         viewModelScope.launch(Dispatchers.Default) {
-            val smsModels = async {
-                dataRepository.getSms()
-            }.await()
+            val scammerNumbers = withContext(Dispatchers.Default) {
+                dataRepository.getScammerNumbers()
+            }
             withContext(Dispatchers.Main) {
-                _liveSmsModels.value = smsModels
+                _liveScammerNumbers.value = scammerNumbers
             }
         }
     }
-
 
     fun claimMaybeScammerNumbers() {
         viewModelScope.launch(Dispatchers.Default) {
@@ -85,30 +68,6 @@ class MainViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 _liveSuspiciousNumbers.value = suspiciousNumbers
             }
-        }
-    }
-
-    fun insertIntoScammers(scammerNumbers: ScammerNumbers) {
-        viewModelScope.launch(Dispatchers.Default) {
-            dataRepository.insertScammerNumbers(scammerNumbers)
-        }
-    }
-
-    fun insertIntoMaybeScammers(maybeScammerNumbers: MaybeScammerNumbers) {
-        viewModelScope.launch(Dispatchers.Default) {
-            dataRepository.insertMaybeScammerNumbers(maybeScammerNumbers)
-        }
-    }
-
-    fun insertIntoSuspicious(suspiciousNumbers: SuspiciousNumbers) {
-        viewModelScope.launch(Dispatchers.Default) {
-            dataRepository.insertSuspiciousNumbers(suspiciousNumbers)
-        }
-    }
-
-    fun deleteFromDB(number : String,numberType: NumberType){
-        viewModelScope.launch(Dispatchers.Default) {
-            dataRepository.deleteNumber(number,numberType)
         }
     }
 

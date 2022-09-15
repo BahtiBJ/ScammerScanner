@@ -32,8 +32,8 @@ class SmsProvider(context : Context) {
         while (smsCursor.moveToNext() && callCount < smsCountLimit) {
             val body = smsCursor.getString(bodyId)
             val address = smsCursor.getString(addressId)
-            val type = smsCursor.getString(typeId)
-            resultArray.add(SMSModel(address,body,type))
+            val type = smsCursor.getInt(typeId)
+            resultArray.add(SMSModel(address,body, type))
             callCount++
         }
 

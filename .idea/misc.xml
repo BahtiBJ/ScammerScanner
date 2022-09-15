@@ -5,19 +5,25 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/drawable/arrow_right.xml" value="0.204" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/drawable/baseline_more_vert_24.xml" value="0.204" />
-        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/activity_setting.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/activity_sms_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/dialog_sms_detail.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/fragment_calls.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/fragment_numbers.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/fragment_sms_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/fragment_sms_list.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_call_list.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_number_list.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_detail.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_detail_inbox.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_detail_sent.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_list.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_list_inbox.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/layout/item_sms_list_sent.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/ScammerScanner/app/src/main/res/menu/context_menu.xml" value="0.33" />
       </map>
     </option>
   </component>

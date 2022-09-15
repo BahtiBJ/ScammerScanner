@@ -4,7 +4,7 @@ import android.content.Context
 import android.provider.CallLog
 import com.bbj.scammerscanner.data.models.CallInfo
 
-class CollLogsProvider(context : Context) {
+class CallLogsProvider(context : Context) {
 
     private val contentResolver = context.contentResolver
     private val logsCountLimit = 30
@@ -31,7 +31,8 @@ class CollLogsProvider(context : Context) {
         while (callCursor.moveToNext() && callCount < logsCountLimit) {
             val duration = callCursor.getString(durationId)
             val number = callCursor.getString(numberId)
-            resultArray.add(CallInfo(number, duration))
+            val type = callCursor.getInt(typeId)
+            resultArray.add(CallInfo(number, duration,type))
             callCount++
         }
 

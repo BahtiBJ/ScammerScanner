@@ -1,187 +1,114 @@
 package com.bbj.scammerscanner.view
 
 import android.Manifest
-import android.app.NotificationManager
 import android.app.role.RoleManager
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.CallLog
-import android.provider.Telephony
-import android.util.Log
+import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager2.widget.ViewPager2
 import com.bbj.scammerscanner.R
-import com.bbj.scammerscanner.data.models.CallInfo
-import com.bbj.scammerscanner.data.models.SMSModel
-import kotlinx.coroutines.*
+import com.bbj.scammerscanner.view.adapters.PagerStateAdapter
+import com.bbj.scammerscanner.view.fragments.SMSDetailDialog
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(),MainView {
 
-class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
+    private val viewModel: MainViewModel by viewModels()
 
-    val callPermission = Manifest.permission.READ_CALL_LOG
-    val smsPermission = Manifest.permission.READ_SMS
-    val phoneStatePermission = Manifest.permission.READ_PHONE_STATE
+    private val toolbarTitle : TextView by lazy { findViewById(R.id.toolbar_title) }
+
     val requestCode = 1
+
+    private val pager : ViewPager2 by lazy {findViewById(R.id.main_viewpager)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.text)
         requestRole()
+        requestAllPermissions()
 
-        notify(this,"FROM NAINACTIVITY")
+    }
 
-        ActivityCompat.requestPermissions(this, arrayOf(phoneStatePermission), requestCode)
+    fun updateUI(){
+        val toolbar = findViewById<Toolbar>(R.id.custom_toolbar)
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                callPermission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(this, arrayOf(callPermission), requestCode)
-        } else {
-            GlobalScope.launch(Dispatchers.Default) {
-                val deferredLogs = async<ArrayList<CallInfo>>(){
-                    readCallLog()
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val pager = findViewById<ViewPager2>(R.id.main_viewpager)
+        pager.adapter = PagerStateAdapter(this)
+
+        val toolbarSettingButton = findViewById<ImageButton>(R.id.toolbar_setting_button)
+        toolbarSettingButton.setOnClickListener {
+            navigateToSettings()
+        }
+
+        val tabLayout = findViewById<TabLayout>(R.id.main_tablayout)
+        TabLayoutMediator(tabLayout,pager){tab,position ->
+            when (position){
+                0 -> {
+                    tab.setText(resources.getString(R.string.calls_title))
                 }
-                val callArray =  deferredLogs.await()
-
-                withContext(Dispatchers.Main) {
-                    if (callArray.isNotEmpty()) {
-                        textView.setText(callArray.toString())
-                    } else {
-                        Toast.makeText(this@MainActivity, "Emptyyyyyyyyyy", Toast.LENGTH_LONG).show()
-                    }
+                1 -> {
+                    tab.setText(resources.getString(R.string.sms_title))
                 }
             }
-        }
-
-//        if (ContextCompat.checkSelfPermission(
-//                this,
-//                smsPermission
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(this, arrayOf(smsPermission), requestCode)
-//        } else {
-//            val smsArray = readSMS()
-//            if (smsArray.isNotEmpty()) {
-//                textView.setText(smsArray.toString())
-//            } else {
-//                Toast.makeText(this, "Emptyyyyyyyyyy", Toast.LENGTH_LONG).show()
-//            }
-//        }
-
-
+        }.attach()
     }
 
-    fun notify(context: Context, text: String) {
-        Log.d("RECIEWVERAAAA","Notify")
-
-//        val manager = NotificationManagerCompat.from(context)
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        manager.cancelAll()
-        val builder = NotificationCompat.Builder(context, "0")
-            .setSmallIcon(android.R.drawable.ic_dialog_email)
-            .setContentTitle("Напоминание")
-            .setTicker("TICKER")
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setContentText(text)
-        manager.notify(0, builder.build())
-    }
-
-    fun readCallLog(): ArrayList<CallInfo> {
-        val numberConst = CallLog.Calls.NUMBER
-        val durationConst = CallLog.Calls.DURATION
-
-        val resultArray: ArrayList<CallInfo> = arrayListOf()
-        val callCursor = contentResolver.query(
-            CallLog.Calls.CONTENT_URI,
-            arrayOf(numberConst, durationConst),
-            null,
-            null,
-            CallLog.Calls.DEFAULT_SORT_ORDER,
-            null
+    @AfterPermissionGranted(Companion.permissionsID)
+    fun requestAllPermissions() {
+        val permissions = arrayOf(
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.READ_PHONE_STATE
         )
-        val numberId = callCursor!!.getColumnIndex(numberConst)
-        val durationId = callCursor.getColumnIndex(durationConst)
-
-        var callCount = 0
-        while (callCursor.moveToNext() && callCount < 20) {
-            val duration = callCursor.getString(durationId)
-            val number = callCursor.getString(numberId)
-            resultArray.add(CallInfo(number, duration))
-            callCount++
+        if (EasyPermissions.hasPermissions(this, *permissions)) {
+            updateUI()
+        } else {
+            EasyPermissions.requestPermissions(this, "", permissionsID, *permissions)
         }
-
-        callCursor.close()
-        return resultArray
-    }
-
-    fun readSMS(): ArrayList<SMSModel> {
-        val addressCol = Telephony.Sms.ADDRESS
-        val bodyConst = Telephony.Sms.BODY
-        val typeConst = Telephony.Sms.TYPE
-
-        val resultArray: ArrayList<SMSModel> = arrayListOf()
-        val smsCursor = contentResolver.query(
-            Telephony.Sms.CONTENT_URI,
-            arrayOf(addressCol, bodyConst, typeConst),
-            null,
-            null,
-            CallLog.Calls.DEFAULT_SORT_ORDER,
-            null
-        )
-        val addressId = smsCursor!!.getColumnIndex(addressCol)
-        val bodyId = smsCursor.getColumnIndex(bodyConst)
-        val typeId = smsCursor.getColumnIndex(typeConst)
-
-        var callCount = 0
-        while (smsCursor.moveToNext() && callCount < 20) {
-            val body = smsCursor.getString(bodyId)
-            val address = smsCursor.getString(addressId)
-            val type = smsCursor.getString(typeId)
-            resultArray.add(SMSModel(address,body,type))
-            callCount++
-        }
-
-        smsCursor.close()
-        return resultArray
     }
 
     val REQUEST_ID = 1
 
-    fun requestRole(){
+    fun requestRole() {
         val roleManager = getSystemService(ROLE_SERVICE) as RoleManager
-        val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
-        startActivityForResult(intent, REQUEST_ID)
+        if (!roleManager.isRoleAvailable(RoleManager.ROLE_CALL_SCREENING)) {
+            val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
+            startActivityForResult(intent, REQUEST_ID)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        Toast.makeText(this,"AAAAAAAAAAAAAAAAAAAAAA",Toast.LENGTH_LONG).show()
+
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        arrayOf(callPermission,smsPermission,phoneStatePermission)
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this)
+    override fun setActionBarTitle(text : String){
+        toolbarTitle.text = text
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    override fun navigateToSettings(){
+        startActivity(Intent(this,PreferencesActivity::class.java))
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
     }
 
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+    override fun navigateToSmsDetail(bundle: Bundle){
+        SMSDetailDialog().apply { arguments = bundle }.show(supportFragmentManager,"dialog")
+    }
+
+    companion object {
+        private const val permissionsID = 24
     }
 }

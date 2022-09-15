@@ -7,6 +7,18 @@
     <string name="suspicious">Подозрительный</string>
     <string name="number_title">Номера</string>
 
+    <string name="incoming">Входящий</string>
+    <string name="outgoing">Исходящий</string>
+    <string name="blocked">Заблокировано</string>
+
+    <string name="calls_title">Вызовы</string>
+    <string name="sms_title">СМС</string>
+    <string name="settings_title">Настройки</string>
+
+    <string name="to_scammer">Мошенический номер</string>
+    <string name="to_maybe_scammer">Возможно мошенический номер</string>
+    <string name="to_suspicious">Подозрительный номер</string>
+
     <string name="sms_body_example">sdhfdoahjflpajfoasdjodahl;afh;jlkahf;shfkdjsahfkajdshfajkhfkjsahfjkhsafjkshfjkdsahf</string>
     <string name="number_example">+77773353723</string>
     <string name="date_example">13.07.23</string>

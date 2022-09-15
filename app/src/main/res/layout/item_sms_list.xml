@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
@@ -20,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sms_body_example"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginStart="20dp"
         android:textSize="20sp"
         android:textColor="@color/black"/>
