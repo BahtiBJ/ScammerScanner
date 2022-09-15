@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ScammerScanner</string>
+    <string name="notification_setting">Уведомление о подозрительном номере</string>
+    <string name="disable_scammer_setting">Оклонять вызовы от мошенников</string>
+    <string name="scammer">Мошеннический</string>
+    <string name="maybe_scammer">Возиожно мошеннический</string>
+    <string name="suspicious">Подозрительный</string>
+    <string name="number_title">Номера</string>
+
+    <string name="sms_body_example">sdhfdoahjflpajfoasdjodahl;afh;jlkahf;shfkdjsahfkajdshfajkhfkjsahfjkhsafjkshfjkdsahf</string>
+    <string name="number_example">+77773353723</string>
+    <string name="date_example">13.07.23</string>
+</resources>
