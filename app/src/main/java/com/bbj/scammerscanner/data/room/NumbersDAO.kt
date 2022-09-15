@@ -1,9 +1,6 @@
 package com.bbj.scammerscanner.data.room
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface NumbersDAO {
@@ -26,13 +23,13 @@ interface NumbersDAO {
     @Query("SELECT * FROM SUSPICIOUSNUMBERS WHERE number = :number")
     fun findInSuspicious(number : String) : List<SuspiciousNumbers>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInScammers(scammerNumbers: ScammerNumbers)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInMaybeScammers(maybeScammerNumbers: MaybeScammerNumbers)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInSuspicious(suspiciousNumbers: SuspiciousNumbers)
 
     @Query("DELETE FROM SCAMMERNUMBERS WHERE number = :number")

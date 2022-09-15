@@ -19,7 +19,15 @@
     <string name="to_maybe_scammer">Возможно мошенический номер</string>
     <string name="to_suspicious">Подозрительный номер</string>
 
-    <string name="sms_body_example">sdhfdoahjflpajfoasdjodahl;afh;jlkahf;shfkdjsahfkajdshfajkhfkjsahfjkhsafjkshfjkdsahf</string>
+    <string name="empty_list">Список пуст</string>
+
+    <string name="scammer_message">ЭТО НОМЕР МОШЕНИКА</string>
+    <string name="maybe_scammer_message">Возможно это мошенический номер</string>
+    <string name="suspicious_message">Это подозрительный номер</string>
+
+    <string name="settings">Настройки</string>
+
+    <string name="sms_body_example">Включая вакансии агентств.Включая вакансии без указания зарплаты.Искать удаленная работа, от 1 года до 3 лет, в названии вакансии.Выводить за месяц</string>
     <string name="number_example">+77773353723</string>
     <string name="date_example">13.07.23</string>
 </resources>

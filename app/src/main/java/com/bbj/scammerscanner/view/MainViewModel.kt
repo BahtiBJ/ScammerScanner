@@ -31,18 +31,6 @@ class MainViewModel @Inject constructor(
     val liveSmsModels: LiveData<ArrayList<SMSModel>>
         get() = _liveSmsModels
 
-    private val _liveScammerNumbers = MutableLiveData<List<ScammerNumbers>>()
-    val liveScammerNumbers: LiveData<List<ScammerNumbers>>
-        get() = _liveScammerNumbers
-
-    private val _liveMaybeScammerNumbers = MutableLiveData<List<MaybeScammerNumbers>>()
-    val liveMaybeScammerNumbers: LiveData<List<MaybeScammerNumbers>>
-        get() = _liveMaybeScammerNumbers
-
-    private val _liveSuspiciousNumbers = MutableLiveData<List<SuspiciousNumbers>>()
-    val liveSuspiciousNumbers: LiveData<List<SuspiciousNumbers>>
-        get() = _liveSuspiciousNumbers
-
     fun claimCallLogs() {
         viewModelScope.launch(Dispatchers.Default) {
             val callLogs = async {
@@ -65,29 +53,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
-    fun claimMaybeScammerNumbers() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val maybeScammerNumbers = withContext(Dispatchers.Default) {
-                dataRepository.getMaybeScammerNumbers()
-            }
-            withContext(Dispatchers.Main) {
-                _liveMaybeScammerNumbers.value = maybeScammerNumbers
-            }
-        }
-    }
-
-    fun claimSuspiciousNumbersNumbers() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val suspiciousNumbers = withContext(Dispatchers.Default) {
-                dataRepository.getSuspiciousNumbers()
-            }
-            withContext(Dispatchers.Main) {
-                _liveSuspiciousNumbers.value = suspiciousNumbers
-            }
-        }
-    }
-
     fun insertIntoScammers(scammerNumbers: ScammerNumbers) {
         viewModelScope.launch(Dispatchers.Default) {
             dataRepository.insertScammerNumbers(scammerNumbers)
@@ -103,12 +68,6 @@ class MainViewModel @Inject constructor(
     fun insertIntoSuspicious(suspiciousNumbers: SuspiciousNumbers) {
         viewModelScope.launch(Dispatchers.Default) {
             dataRepository.insertSuspiciousNumbers(suspiciousNumbers)
-        }
-    }
-
-    fun deleteFromDB(number : String,numberType: NumberType){
-        viewModelScope.launch(Dispatchers.Default) {
-            dataRepository.deleteNumber(number,numberType)
         }
     }
 

@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bbj.scammerscanner.R
 import com.bbj.scammerscanner.data.models.CallInfo
-import com.bbj.scammerscanner.util.deleteStart
 
 class CallLogsAdapter(context: Context, private val callsList: ArrayList<CallInfo>,private val onDotsClick : OnDotsClick) :
     RecyclerView.Adapter<CallLogsAdapter.ViewHolder>() {
@@ -42,9 +41,10 @@ class CallLogsAdapter(context: Context, private val callsList: ArrayList<CallInf
             CallLog.Calls.OUTGOING_TYPE -> holder.type.setText(R.string.outgoing)
         }
 
-        holder.menu.setOnClickListener {
+        holder.itemView.setOnClickListener {
             onDotsClick.click(it,callsList[position].number)
         }
+
 
     }
 
@@ -58,7 +58,6 @@ class CallLogsAdapter(context: Context, private val callsList: ArrayList<CallInf
         val number = view.findViewById<TextView>(R.id.calls_item_number)
         val date = view.findViewById<TextView>(R.id.calls_item_date)
         val type = view.findViewById<TextView>(R.id.calls_item_type)
-        val menu = view.findViewById<ImageButton>(R.id.calls_item_menu)
 
     }
 

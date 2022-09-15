@@ -3,6 +3,7 @@ package com.bbj.scammerscanner.view
 import android.telecom.Call
 import android.telecom.CallScreeningService
 import androidx.room.Room
+import com.bbj.scammerscanner.data.PreferenceManager
 import com.bbj.scammerscanner.data.room.NumbersDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +15,12 @@ class FilterCallScreeningService : CallScreeningService() {
 
     override fun onScreenCall(details: Call.Details) {
         CoroutineScope(Dispatchers.Default).launch {
-            val response = withContext(Dispatchers.Default) {
-                handleCall(getNumber(details))
+            val response = if (!PreferenceManager(applicationContext).getScammerEnabledState()) {
+                CallResponse.Builder().build()
+            } else {
+                withContext(Dispatchers.Default) {
+                    handleCall(getNumber(details))
+                }
             }
 
             withContext(Dispatchers.Main) {
@@ -43,10 +48,10 @@ class FilterCallScreeningService : CallScreeningService() {
     }
 
     private fun isScammer(number: String): Boolean {
-        val dao = Room.databaseBuilder(applicationContext, NumbersDatabase::class.java, "numbersDatabase")
-            .build().getDao()
+        val dao =
+            Room.databaseBuilder(applicationContext, NumbersDatabase::class.java, "numbersDatabase")
+                .build().getDao()
         val resultList = dao.findInScammer(number)
         return resultList.isNotEmpty()
-
     }
 }

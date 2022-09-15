@@ -47,6 +47,16 @@ class MainActivity : AppCompatActivity(),MainView {
 
         val pager = findViewById<ViewPager2>(R.id.main_viewpager)
         pager.adapter = PagerStateAdapter(this)
+        pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                toolbarTitle.text = when(position){
+                    0 -> "Вызовы"
+                    1 -> "СМС"
+                    else -> ""
+                }
+                super.onPageSelected(position)
+            }
+        })
 
         val toolbarSettingButton = findViewById<ImageButton>(R.id.toolbar_setting_button)
         toolbarSettingButton.setOnClickListener {
@@ -64,9 +74,10 @@ class MainActivity : AppCompatActivity(),MainView {
                 }
             }
         }.attach()
+
     }
 
-    @AfterPermissionGranted(Companion.permissionsID)
+    @AfterPermissionGranted(permissionsID)
     fun requestAllPermissions() {
         val permissions = arrayOf(
             Manifest.permission.READ_CALL_LOG,
@@ -101,7 +112,7 @@ class MainActivity : AppCompatActivity(),MainView {
 
     override fun navigateToSettings(){
         startActivity(Intent(this,PreferencesActivity::class.java))
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
+        overridePendingTransition(R.anim.slide_up_enter,R.anim.zoom_out_exitr)
     }
 
     override fun navigateToSmsDetail(bundle: Bundle){

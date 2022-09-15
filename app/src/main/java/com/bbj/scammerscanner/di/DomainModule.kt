@@ -4,6 +4,7 @@ import com.bbj.scammerscanner.data.DataRepositoryImpl
 import com.bbj.scammerscanner.data.providers.CallLogsProvider
 import com.bbj.scammerscanner.data.providers.SmsProvider
 import com.bbj.scammerscanner.data.room.NumbersDAO
+import com.bbj.scammerscanner.data.room.NumbersDatabase
 import com.bbj.scammerscanner.domain.DataRepository
 import dagger.Module
 import dagger.Provides
@@ -16,14 +17,20 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
 
-    @Provides
-    @ViewModelScoped
-    fun provideDataRepository(
-        callLogsProvider: CallLogsProvider,
-        smsProvider: SmsProvider,
-        numbersDAO: NumbersDAO
-    ): DataRepository {
-        return DataRepositoryImpl(callLogsProvider,smsProvider,numbersDAO)
-    }
+//    @Provides
+//    @ViewModelScoped
+//    fun provideDataRepository(
+//        callLogsProvider: CallLogsProvider,
+//        smsProvider: SmsProvider,
+//        numbersDAO: NumbersDAO
+//    ): DataRepository {
+//        return DataRepositoryImpl(callLogsProvider,smsProvider,numbersDAO)
+//    }
+//
+//    @Provides
+//    @ViewModelScoped
+//    fun provideDAO(numbersDatabase: NumbersDatabase) : NumbersDAO{
+//        return numbersDatabase.getDao()
+//    }
 
 }

@@ -32,18 +32,12 @@ class CallLogFragment : Fragment() {
 
         val callList = view.findViewById<RecyclerView>(R.id.calls_calls_list)
 
-        val onDotsClick = object : CallLogsAdapter.OnDotsClick {
-            override fun click(view: View, number: String) {
-                lastChosenNumber = number
-                registerForContextMenu(view)
-            }
-        }
-
         viewModel.liveCallLogs.observe(viewLifecycleOwner) {
             val adapter = CallLogsAdapter(requireContext(), it,object : CallLogsAdapter.OnDotsClick {
                 override fun click(view: View, number: String) {
                     lastChosenNumber = number
                     registerForContextMenu(view)
+                    view.performLongClick()
                 }
             })
             callList.adapter = adapter

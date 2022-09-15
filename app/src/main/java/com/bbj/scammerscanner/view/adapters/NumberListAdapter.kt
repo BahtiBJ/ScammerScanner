@@ -12,10 +12,16 @@ class NumberListAdapter(context: Context) :
     RecyclerView.Adapter<NumberListAdapter.ViewHolder>() {
 
     private val inflater = LayoutInflater.from((context))
-    private val numberList : ArrayList<String> = arrayListOf()
+    val numberList : ArrayList<String> = arrayListOf<String>().apply { add("Список пуст") }
 
     fun addData(list : List<String>){
+        numberList.clear()
         numberList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun addElement(element : String){
+        numberList.add(element)
         notifyDataSetChanged()
     }
 
@@ -25,7 +31,7 @@ class NumberListAdapter(context: Context) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.number.text = numberList[position].toString()
+        holder.number.text = numberList[position]
     }
 
     override fun getItemCount(): Int {

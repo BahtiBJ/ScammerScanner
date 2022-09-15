@@ -13,6 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -43,7 +44,19 @@ class DataModule {
     }
 
     @Provides
+    @Singleton
+    fun provideDataRepository(
+        callLogsProvider: CallLogsProvider,
+        smsProvider: SmsProvider,
+        numbersDAO: NumbersDAO
+    ): DataRepository {
+        return DataRepositoryImpl(callLogsProvider,smsProvider,numbersDAO)
+    }
+
+    @Provides
+    @Singleton
     fun provideDAO(numbersDatabase: NumbersDatabase) : NumbersDAO{
         return numbersDatabase.getDao()
     }
+
 }

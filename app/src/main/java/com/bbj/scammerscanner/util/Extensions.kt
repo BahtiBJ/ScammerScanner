@@ -6,9 +6,3 @@ fun String.decreaseToSize(size : Int) : String{
     } else
         return (this.substring(0,size) + "...")
 }
-
-fun String.deleteStart() : String{
-    return if (this.startsWith("+7"))
-        this.replace("+7","8")
-    else this
-}

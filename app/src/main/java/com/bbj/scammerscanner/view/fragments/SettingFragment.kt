@@ -11,10 +11,15 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.bbj.scammerscanner.R
+import com.bbj.scammerscanner.data.PreferenceManager
 import com.bbj.scammerscanner.data.models.NumberType
 import com.bbj.scammerscanner.view.PreferencesActivity
 
+
 class SettingFragment : Fragment() {
+
+    private var notificationEnabled = false
+    private var handleCalls = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +35,21 @@ class SettingFragment : Fragment() {
 
         Log.d("SettingFragment", "View created")
 
+        notificationEnabled = PreferenceManager(requireContext()).getNotificationEnabledState()
+        handleCalls = PreferenceManager(requireContext()).getScammerEnabledState()
+
         val disableScammerCheckBox =
             view.findViewById<CheckBox>(R.id.settings_scammer_disable_checkbox)
+        disableScammerCheckBox.isChecked = handleCalls
+        disableScammerCheckBox.setOnCheckedChangeListener { compoundButton, b ->
+            handleCalls = b
+        }
         val showNotificationCheckBox =
             view.findViewById<CheckBox>(R.id.settings_notification_checkbox)
+        showNotificationCheckBox.isChecked = notificationEnabled
+        showNotificationCheckBox.setOnCheckedChangeListener { compoundButton, b ->
+            notificationEnabled = b
+        }
 
         val scammerNumbersArea = view.findViewById<LinearLayout>(R.id.settings_scammer_numbers_area)
         scammerNumbersArea.setOnTouchListener { view, motionEvent ->
@@ -46,7 +62,7 @@ class SettingFragment : Fragment() {
                 })
                 true
             } else
-                view.performClick()
+                false
         }
         val maybeScammerNumbersArea =
             view.findViewById<LinearLayout>(R.id.settings_maybe_scammer_numbers_area)
@@ -79,5 +95,10 @@ class SettingFragment : Fragment() {
 
     }
 
+    override fun onStop() {
+        PreferenceManager(requireContext()).setScammerEnabledState(handleCalls)
+        PreferenceManager(requireContext()).setNotificationEnabledState(notificationEnabled)
+        super.onStop()
+    }
 
 }
