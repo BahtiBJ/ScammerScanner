@@ -18,11 +18,12 @@ import com.bbj.scammerscanner.view.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
+
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity(), MainView,EasyPermissions.PermissionCallbacks {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity(), MainView {
 
     }
 
-    @AfterPermissionGranted(permissionsID)
     fun requestAllPermissions() {
         val permissions = arrayOf(
             Manifest.permission.READ_CALL_LOG,
@@ -100,6 +100,10 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun setActionBarTitle(text : String){
         toolbarTitle.text = text
     }
@@ -111,6 +115,33 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun navigateToSmsDetail(bundle: Bundle){
         SMSDetailDialog().apply { arguments = bundle }.show(supportFragmentManager,"dialog")
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        val permissions = arrayOf(
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.READ_PHONE_STATE
+        )
+        if (EasyPermissions.hasPermissions(this, *permissions)) {
+            updateUI()
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
     }
 
     companion object {
